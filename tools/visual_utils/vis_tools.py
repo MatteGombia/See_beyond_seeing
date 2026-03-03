@@ -20,11 +20,11 @@ def fov_filtering(pts, frame_id, is_radar=True, is_test=False,return_flag=False)
     modality = 'radar' if is_radar else 'lidar'
     split = 'testing' if is_test else 'training'
 
-    img_file = "/root/gabriel/code/parent/CenterPoint-KITTI/data/vod_%s/%s/image_2/%s.jpg"%(modality, split, frame_id)
+    img_file = "/root/data/view_of_delft_PUBLIC/radar/%s/image_2/%s.jpg"%(split, frame_id)
     # assert img_file.exists(), f"failed on {idx}, img file = {img_file}"
     img_shape = np.array(io.imread(img_file).shape[:2], dtype=np.int32)
 
-    calib_path = "/root/gabriel/code/parent/CenterPoint-KITTI/data/vod_%s/%s/calib/%s.txt"%(modality, split, frame_id)
+    calib_path = "/root/data/view_of_delft_PUBLIC/radar/%s/calib/%s.txt"%(split, frame_id)
     calib = calibration_kitti.Calibration(calib_path)
     pts_rect = calib.lidar_to_rect(pts[:, 0:3])
     fov_flag = get_fov_flag(pts_rect, img_shape, calib)
@@ -39,7 +39,7 @@ def get_img_file(frame_id, is_radar=True, is_test=False):
     modality = 'radar' if is_radar else 'lidar'
     split = 'testing' if is_test else 'training'
 
-    img_file = "/root/dj/code/CenterPoint-KITTI/data/vod_%s/%s/image_2/%s.jpg"%(modality, split, frame_id)
+    img_file = "/root/data/view_of_delft_PUBLIC/radar/%s/image_2/%s.jpg"%(split, frame_id)
     # assert img_file.exists(), f"failed on {idx}, img file = {img_file}"
     # img = cv2.imread(img_file)
     return img_file
@@ -68,7 +68,7 @@ def transform_anno(loc, frame_id, is_radar=True, is_test=False):
     modality = 'radar' if is_radar else 'lidar'
     split = 'testing' if is_test else 'training'
 
-    calib_path = "/root/dj/code/CenterPoint-KITTI/data/vod_%s/%s/calib/%s.txt"%(modality, split, frame_id)
+    calib_path = "/root/data/view_of_delft_PUBLIC/radar/%s/calib/%s.txt"%(split, frame_id)
 
     # if is_radar:
     #     calib_path = "/root/dj/code/CenterPoint-KITTI/data/vod_radar/training/calib/{0}.txt".format(frame_id)
@@ -146,7 +146,7 @@ def anno2plt(anno, color_dict, lw, frame_id, xz=False, is_radar=True, is_test=Fa
             # ax = x - (l/4)
             # ay = y - (w/4)
 
-        rec_list += [Rec((ax, ay), l, w, ang, fill=False, color=color,lw=lw)]
+        rec_list += [Rec((ax, ay), l, w, angle=ang, fill=False, color=color,lw=lw)]
     return rec_list
 
 def rotate_legend(ax, legends, degree):
@@ -177,6 +177,26 @@ def drawBEV(ax, pts, centers, annos, color_dict, frame_id, ax_title, ext_legends
     
     for rec in rec_list:
         ax.add_patch(rec)
+
+    # --- Confidence Scores ---
+    # Handle the fact that annos might be a dictionary or a list containing a dictionary
+    anno_dict = annos[0] if isinstance(annos, list) else annos
+    
+    if anno_dict is not None and 'score' in anno_dict and 'bbox' in anno_dict:
+        for i in range(len(anno_dict['score'])):
+            score = anno_dict['score'][i]
+            rec = rec_list[i] if i < len(rec_list) else None
+            # Only draw scores for predictions (Ground Truths usually lack scores or have dummy 0/-1 values)
+            if score > 0.01:
+                # Grab the X and Y coordinates of the box center
+                x = rec.get_x() + rec.get_width() if rec else 0
+                y = rec.get_y() + rec.get_height() if rec else 0
+                #print(f"Drawing score {score:.2f} at ({x:.2f}, {y:.2f}) for frame {frame_id}")
+                
+                # Draw the text with a small black background so it's easy to read over point clouds
+                ax.text(x, y, f"{score:.2f}", color='b', fontsize=7, 
+                        bbox=dict(facecolor='black', alpha=0.6, edgecolor='none', pad=0.5))
+    # -----------------------------------
 
     legend_elements = [Patch(facecolor='white', edgecolor=v, label=k) for i, (k, v) in enumerate(color_dict.items())]
     if centers is not None:
@@ -219,6 +239,8 @@ def saveODImgs(frame_ids, anno, data_path, img_path, color_dict, is_radar=True, 
         drawBEV(ax, vis_pcd, None, anno[fid], color_dict, fid, title, is_radar=is_radar, is_test=is_test, swap_axis=swap_axis)
         
         img_fname = img_path / (fid + '.png')
+        plt.xlim(0, 75)
+        plt.ylim(-30, 30)
         plt.savefig(str(img_fname))
         plt.cla()
 

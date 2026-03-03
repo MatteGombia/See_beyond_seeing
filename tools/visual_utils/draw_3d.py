@@ -550,16 +550,14 @@ def main():
     i.e. radar,lidar,gt,pred boxes all in lidar coordinate frame 
     '''
 
-    vod_data_path = '/mnt/12T/public/view_of_delft'
+    vod_data_path = '/root/data/view_of_delft_PUBLIC/'
 
     
 
     # ['centerpoint_lidar','3dssd_lidar','pp_lidar','lidar_i'] 
 
     test_dict = {
-        'CFAR_lidar_rcsv':'/root/gabriel/code/parent/CenterPoint-KITTI/output/root/gabriel/code/parent/CenterPoint-KITTI/output/IA-SSD-GAN-vod-aug-lidar/to_lidar_5_feat/IA-SSD-GAN-vod-aug-lidar/default/eval/epoch_5/val/default/final_result/data',
-        'CFAR_radar':'output/root/gabriel/code/parent/CenterPoint-KITTI/output/IA-SSD-GAN-vod-aug/radar48001_512all/IA-SSD-GAN-vod-aug/default/eval/epoch_512/val/default/final_result/data',
-
+        'CFAR_radar':'results/final_result/data',
     }
     
 
@@ -577,11 +575,11 @@ def main():
     resolution = '480'
     is_test_set = False
     is_combined = True
-    tag = 'CFAR_lidar_rcs'
+    tag = 'CFAR_radar'
     
     abs_path = P(__file__).parent.resolve()
     base_path = abs_path.parents[1]
-    CAMERA_POS_PATH = 'thickcam.json'
+    CAMERA_POS_PATH = 'cam_960_480_angle_2.json'
     output_name = tag+'_testset' if is_test_set else tag 
     OUTPUT_IMG_PATH = base_path /'output' / 'vod_vis' / 'vis_video' /  resolution / (output_name)
 #--------------------------------------------------------------------------------
@@ -887,7 +885,7 @@ if __name__ == "__main__":
     Note:
     main() is depreciated for now
     '''
-    
+    main()
 
     # RUN THESE COMMANDS FIRST
     # source py3env/bin/activate
@@ -897,12 +895,12 @@ if __name__ == "__main__":
 
     # generate_comparison_frames()
 
-    add_captions(
-        image_path='/root/gabriel/code/parent/CenterPoint-KITTI/output/vod_vis/vis_video/camera_960_1080/CFAR_radarpp_radar_rcsv/00189.png',
-        save_path='/root/gabriel/code/parent/CenterPoint-KITTI/output/vod_vis/vis_video/camera_960_1080/CFAR_radarpp_radar_rcsv_captioned/00189.png',
-        caption1='Ours',
-        caption2='Pointpillar'
-    )   
+    # add_captions(
+    #     image_path='/root/gabriel/code/parent/CenterPoint-KITTI/output/vod_vis/vis_video/camera_960_1080/CFAR_radarpp_radar_rcsv/00189.png',
+    #     save_path='/root/gabriel/code/parent/CenterPoint-KITTI/output/vod_vis/vis_video/camera_960_1080/CFAR_radarpp_radar_rcsv_captioned/00189.png',
+    #     caption1='Ours',
+    #     caption2='Pointpillar'
+    # )   
 
     # concat_outputs(
     #     path1 = '/root/gabriel/code/parent/CenterPoint-KITTI/output/vod_vis/vis_video/camera_960_1080/CFAR_radar/RadarGTPred',

@@ -2,6 +2,14 @@ import numpy as np
 import vis_tools
 from pathlib import Path as P
 from glob import glob
+
+import typing
+from typing_extensions import Literal, TypedDict
+
+# Force these into the standard typing module for older Python versions
+typing.Literal = Literal
+typing.TypedDict = TypedDict
+
 from vod.visualization.settings import label_color_palette_2d
 if __name__ == '__main__':
     path_dict = {
@@ -34,7 +42,8 @@ if __name__ == '__main__':
     is_test = True
     modality = 'radar' if is_radar else 'lidar'
     split = 'testing' if is_test else 'training'
-    pcd_file_path = base_path / ('data/vod_%s/%s/velodyne' % (modality, split))
+    #pcd_file_path = base_path / ('data/vod_%s/%s/velodyne' % (modality, split))
+    pcd_file_path = P('/root/data/view_of_delft_PUBLIC/%s/%s/velodyne' % (modality, split))
     # pcd_files =
 
     def get_frame_id(fname):
@@ -54,12 +63,13 @@ if __name__ == '__main__':
 
     frame_ids = sorted(list(annas_dict.keys()))
 
-    cls_name = ['Car','Pedestrian', 'Cyclist', 'Others']
+    cls_name = ['Car','Pedestrian', 'Cyclist']
     color_dict = {}
     for i, v in enumerate(cls_name):
         color_dict[v] = label_color_palette_2d[v]
 
-    vis_img_path = base_path / 'output' / 'vod_testset' / tag
+    #vis_img_path = base_path / 'output' / 'vod_testset' / tag
+    vis_img_path = P('/root/data/view_of_delft_PUBLIC/radar/im') / tag
     vis_img_path.mkdir(exist_ok=True, parents=True)
 
     img_title = 'lidar' if 'lidar' in tag else 'radar'

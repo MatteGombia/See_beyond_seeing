@@ -58,21 +58,22 @@ from pathlib import Path
 
 ## path here: eg /root/dj/code/CenterPoint-KITTI/output/{MODEL-NAME}/{TAG}/eval/eval_with_train/epoch_{XX}/val/result.pkl
 # predicted_pkl_path = '/root/dj/code/CenterPoint-KITTI/output/IA-SSD-GAN-vod/domain_cross_init_car/eval/eval_with_train/epoch_80/val/result.pkl'
-predicted_pkl_path = '/root/dj/code/CenterPoint-KITTI/output/pointpillar_vod_lidar/filter5/eval/eval_with_train/epoch_80/val/result.pkl'
+predicted_pkl_path = '/seeing_beyond/results/result.pkl'
+txt_prediction_path = '/seeing_beyond/results/final_result/data'
 # folder containing vod_lidar and vod_radar 
-root_dir = '/root/dj/code/CenterPoint-KITTI/data' 
+root_dir = '/root/data/view_of_delft_PUBLIC/' 
 
 
 # dict = frame_id: ['pred_0 info in kitti format', 'pred_1 info in kitti format', ...]
 pred_dict = get_pred_dict(predicted_pkl_path)
 frame_ids = list(pred_dict.keys())
 
-op_dir = '/root/dj/code/CenterPoint-KITTI/output/vod_vis/rbg_with_labels/'
+op_dir = '/seeing_beyond/output/visualization_2D/' # where to save the visualizations
 temp = Path(op_dir).mkdir(exist_ok=True)
 kitti_locations = KittiLocations(root_dir=root_dir,
                                 output_dir=op_dir,
-                                frame_set_path="",
-                                pred_dir="",
+                                frame_set_path='',
+                                pred_dir=txt_prediction_path,
                                 )
 #%%
 from tqdm import tqdm
@@ -82,7 +83,7 @@ for id in tqdm(frame_ids):
                                 id)
 
     vis2d = Visualization2D(frame_data)
-    vis2d.draw_plot(show_radar=False,show_lidar=False,show_gt=True,show_pred=False, plot_figure=False)
+    vis2d.draw_plot(show_radar=True,show_lidar=False,show_gt=False,show_pred=True, plot_figure=False, save_figure=False)
 
 
 
@@ -91,7 +92,7 @@ from vis_tools import make_vid
 from glob import glob
 
 imgs = sorted(glob(op_dir+'*.png'))
-op_vid = '/root/dj/code/CenterPoint-KITTI/output/vod_vis/rgb_with_label.mp4'
+op_vid = '/seeing_beyond/output/visualization_2D/2D_radar.mp4'
 make_vid(imgs, op_vid, fps=10)
 
 

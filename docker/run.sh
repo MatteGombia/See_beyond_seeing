@@ -34,5 +34,5 @@ docker run -it --ipc=host --network host \
     -v ${REPOSITORY_PATH}:/seeing_beyond \
     --gpus all \
     --name seeing_beyond \
-    docker.io/gc625kodifly/seeing_beyond:latest \
+    gc625kodifly/seeing_beyond:latest \
     /bin/bash

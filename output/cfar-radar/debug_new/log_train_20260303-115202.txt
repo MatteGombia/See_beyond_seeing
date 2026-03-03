@@ -1,0 +1,1223 @@
+2026-03-03 11:52:02,981   INFO  ************************************************************
+2026-03-03 11:52:02,981   INFO  CKPT PATH for this experiment: /seeing_beyond/output/cfar-radar/debug_new/ckpt
+2026-03-03 11:52:02,981   INFO  ************************************************************
+2026-03-03 11:52:02,981   INFO  **********************Start logging**********************
+2026-03-03 11:52:02,981   INFO  CUDA_VISIBLE_DEVICES=ALL
+2026-03-03 11:52:02,981   INFO  cfg_file         /seeing_beyond/tools/cfgs/kitti_models/cfar-radar.yaml
+2026-03-03 11:52:02,981   INFO  batch_size       32
+2026-03-03 11:52:02,981   INFO  epochs           40
+2026-03-03 11:52:02,981   INFO  workers          8
+2026-03-03 11:52:02,981   INFO  extra_tag        debug_new
+2026-03-03 11:52:02,981   INFO  ckpt             None
+2026-03-03 11:52:02,981   INFO  pretrained_model /seeing_beyond/ckpts/cfar/cfar-radar.pth
+2026-03-03 11:52:02,981   INFO  launcher         none
+2026-03-03 11:52:02,981   INFO  tcp_port         18888
+2026-03-03 11:52:02,981   INFO  sync_bn          False
+2026-03-03 11:52:02,981   INFO  fix_random_seed  False
+2026-03-03 11:52:02,981   INFO  ckpt_save_interval 1
+2026-03-03 11:52:02,981   INFO  local_rank       0
+2026-03-03 11:52:02,981   INFO  max_ckpt_save_num 30
+2026-03-03 11:52:02,981   INFO  merge_all_iters_to_one_epoch False
+2026-03-03 11:52:02,981   INFO  set_cfgs         None
+2026-03-03 11:52:02,981   INFO  max_waiting_mins 0
+2026-03-03 11:52:02,981   INFO  start_epoch      0
+2026-03-03 11:52:02,981   INFO  save_to_file     False
+2026-03-03 11:52:02,981   INFO  freeze_part      False
+2026-03-03 11:52:02,982   INFO  eval_epoch       1
+2026-03-03 11:52:02,982   INFO  eval_save        True
+2026-03-03 11:52:02,982   INFO  multi_gpu        False
+2026-03-03 11:52:02,982   INFO  cfg.ROOT_DIR: /seeing_beyond
+2026-03-03 11:52:02,982   INFO  cfg.LOCAL_RANK: 0
+2026-03-03 11:52:02,982   INFO  cfg.CLASS_NAMES: ['Car', 'Pedestrian', 'Cyclist']
+2026-03-03 11:52:02,982   INFO  
+cfg.DATA_CONFIG = edict()
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.DATASET: KittiDataset
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.DATA_PATH: /root/data/view_of_delft_PUBLIC/radar
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.POINT_CLOUD_RANGE: [0, -25.6, -3, 51.2, 25.6, 2]
+2026-03-03 11:52:02,982   INFO  
+cfg.DATA_CONFIG.DATA_SPLIT = edict()
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.DATA_SPLIT.train: train
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.DATA_SPLIT.test: val
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.DATA_SPLIT.bench_mark: testing
+2026-03-03 11:52:02,982   INFO  
+cfg.DATA_CONFIG.INFO_PATH = edict()
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.INFO_PATH.train: ['kitti_infos_train.pkl']
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.INFO_PATH.test: ['kitti_infos_val.pkl']
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.INFO_PATH.bench_mark: ['kitti_infos_test.pkl']
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.FOV_POINTS_ONLY: True
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.MODALITY: radar
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.IS_RADAR: True
+2026-03-03 11:52:02,982   INFO  
+cfg.DATA_CONFIG.TRAIN_LABEL_FILTER = edict()
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.TRAIN_LABEL_FILTER.min_pts: 1
+2026-03-03 11:52:02,982   INFO  
+cfg.DATA_CONFIG.DATA_AUGMENTOR = edict()
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.DATA_AUGMENTOR.DISABLE_AUG_LIST: ['random_world_rotation', 'gt_sampling']
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.DATA_AUGMENTOR.AUG_CONFIG_LIST: [{'NAME': 'gt_sampling', 'USE_ROAD_PLANE': False, 'DB_INFO_PATH': ['kitti_dbinfos_train.pkl'], 'PREPARE': {'filter_by_min_points': ['Car:0', 'Pedestrian:1', 'Cyclist:1'], 'filter_by_difficulty': [-1]}}]
+2026-03-03 11:52:02,982   INFO  
+cfg.DATA_CONFIG.POINT_FEATURE_ENCODING = edict()
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.POINT_FEATURE_ENCODING.encoding_type: absolute_coordinates_encoding
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.POINT_FEATURE_ENCODING.used_feature_list: ['x', 'y', 'z', 'RCS', 'v_r_compensated']
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.POINT_FEATURE_ENCODING.src_feature_list: ['x', 'y', 'z', 'RCS', 'v_r', 'v_r_compensated', 'time']
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.DATA_PROCESSOR: [{'NAME': 'mask_points_and_boxes_outside_range', 'REMOVE_OUTSIDE_BOXES': True}, {'NAME': 'sample_points', 'NUM_POINTS': {'train': 512, 'test': 512}}, {'NAME': 'sample_attach_points', 'NUM_POINTS': {'train': 80000, 'test': 80000}}, {'NAME': 'shuffle_points', 'SHUFFLE_ENABLED': {'train': True, 'test': False}}]
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG._BASE_CONFIG_: /seeing_beyond/tools/cfgs/dataset_configs/vod_radar_dataset.yaml
+2026-03-03 11:52:02,982   INFO  cfg.DATA_CONFIG.ATTACH_USED_FEATURE_LIST: ['x', 'y', 'z', 'intensity']
+2026-03-03 11:52:02,982   INFO  cfg.USE_ATTACH: True
+2026-03-03 11:52:02,982   INFO  
+cfg.MODEL = edict()
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.DEBUG: False
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.NAME: CFAR
+2026-03-03 11:52:02,982   INFO  
+cfg.MODEL.ATTACH_NETWORK = edict()
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.CKPT_FILE: /seeing_beyond/ckpts/iassd/iassd-lidar.pth
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.NUM_POINT_FEATURES: 4
+2026-03-03 11:52:02,982   INFO  
+cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D = edict()
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.NAME: IASSD_Backbone
+2026-03-03 11:52:02,982   INFO  
+cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG = edict()
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG.Sampling setting: None
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG.NPOINT_LIST: [[4096], [1024], [512], [256], [-1], [256]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG.SAMPLE_RANGE_LIST: [[-1], [-1], [-1], [-1], [-1], [-1]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG.SAMPLE_METHOD_LIST: [['D-FPS'], ['D-FPS'], ['ctr_aware'], ['ctr_aware'], [], []]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG.RADIUS_LIST: [[0.2, 0.8], [0.8, 1.6], [1.6, 4.8], [], [], [4.8, 6.4]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG.NSAMPLE_LIST: [[16, 32], [16, 32], [16, 32], [], [], [16, 32]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG.MLPS: [[[16, 16, 32], [32, 32, 64]], [[64, 64, 128], [64, 96, 128]], [[128, 128, 256], [128, 256, 256]], [], [128], [[256, 256, 512], [256, 512, 1024]]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG.LAYER_TYPE: ['SA_Layer', 'SA_Layer', 'SA_Layer', 'SA_Layer', 'Vote_Layer', 'SA_Layer']
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG.DILATED_GROUP: [False, False, False, False, False, False]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG.AGGREGATION_MLPS: [[64], [128], [256], [256], [], [512]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG.CONFIDENCE_MLPS: [[], [128], [256], [], [], []]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG.EUCLIDEAN_MASK: [False, False, False, False, False, False]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG.LAYER_INPUT: [0, 1, 2, 3, 4, 3]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG.CTR_INDEX: [-1, -1, -1, -1, -1, 5]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.ATTACH_NETWORK.BACKBONE_3D.SA_CONFIG.MAX_TRANSLATE_RANGE: [3.0, 3.0, 2.0]
+2026-03-03 11:52:02,982   INFO  
+cfg.MODEL.BACKBONE_3D = edict()
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.NAME: IASSD_Backbone
+2026-03-03 11:52:02,982   INFO  
+cfg.MODEL.BACKBONE_3D.SA_CONFIG = edict()
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.SA_CONFIG.NPOINT_LIST: [[512], [512], [256], [128], [-1], [128]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.SA_CONFIG.SAMPLE_RANGE_LIST: [[-1], [-1], [-1], [-1], [-1], [-1]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.SA_CONFIG.SAMPLE_METHOD_LIST: [['D-FPS'], ['D-FPS'], ['ctr_aware'], ['ctr_aware'], [], []]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.SA_CONFIG.RADIUS_LIST: [[0.2, 0.8], [0.8, 1.6], [1.6, 4.8], [], [], [4.8, 6.4]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.SA_CONFIG.NSAMPLE_LIST: [[16, 32], [16, 32], [16, 32], [], [], [16, 32]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.SA_CONFIG.MLPS: [[[16, 16, 32], [32, 32, 64]], [[64, 64, 128], [64, 96, 128]], [[128, 128, 256], [128, 256, 256]], [], [128], [[256, 256, 512], [256, 512, 1024]]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.SA_CONFIG.LAYER_TYPE: ['SA_Layer', 'SA_Layer', 'SA_Layer', 'SA_Layer', 'Vote_Layer', 'SA_Layer']
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.SA_CONFIG.DILATED_GROUP: [False, False, False, False, False, False]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.SA_CONFIG.AGGREGATION_MLPS: [[64], [128], [256], [256], [], [512]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.SA_CONFIG.CONFIDENCE_MLPS: [[], [128], [256], [], [], []]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.SA_CONFIG.LAYER_INPUT: [0, 1, 2, 3, 4, 3]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.SA_CONFIG.CTR_INDEX: [-1, -1, -1, -1, -1, 5]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.SA_CONFIG.MAX_TRANSLATE_RANGE: [3.0, 3.0, 2.0]
+2026-03-03 11:52:02,982   INFO  
+cfg.MODEL.BACKBONE_3D.FUSION_CONFIG = edict()
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.FUSION_CONFIG.NPOINT_LIST: [[256]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.FUSION_CONFIG.SAMPLE_RANGE_LIST: [[-1]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.FUSION_CONFIG.RADIUS_LIST: [[4.8, 6.4]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.FUSION_CONFIG.NSAMPLE_LIST: [[16, 32]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.FUSION_CONFIG.MLPS: [[[256, 256, 512], [256, 512, 1024]]]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.FUSION_CONFIG.LAYER_TYPE: ['SA_Layer']
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.FUSION_CONFIG.DILATED_GROUP: [False]
+2026-03-03 11:52:02,982   INFO  cfg.MODEL.BACKBONE_3D.FUSION_CONFIG.AGGREGATION_MLPS: [[512]]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.BACKBONE_3D.FUSION_CONFIG.CONFIDENCE_MLPS: [[]]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.BACKBONE_3D.FUSION_CONFIG.LAYER_INPUT: [3]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.BACKBONE_3D.FUSION_CONFIG.CTR_INDEX: [5]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.BACKBONE_3D.FUSION_CONFIG.MAX_TRANSLATE_RANGE: [3.0, 3.0, 2.0]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.USE_FEAT_AUG: True
+2026-03-03 11:52:02,983   INFO  
+cfg.MODEL.FEAT_AUG = edict()
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.FEAT_AUG.CH_IN: 512
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.FEAT_AUG.MLPS: [512, 512, 512, 512]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.FEAT_AUG.LOSS_WEIGHTS: [1]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.FEAT_AUG.RELU: True
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.FEAT_AUG.BN: True
+2026-03-03 11:52:02,983   INFO  
+cfg.MODEL.POINT_HEAD = edict()
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.NAME: IASSD_Head
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.CLS_FC: [512, 512]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.REG_FC: [512, 512]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.CLASS_AGNOSTIC: False
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.USE_POINT_FEATURES_BEFORE_FUSION: False
+2026-03-03 11:52:02,983   INFO  
+cfg.MODEL.POINT_HEAD.TARGET_CONFIG = edict()
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.TARGET_CONFIG.INS_AWARE_ASSIGN: True
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.TARGET_CONFIG.GT_EXTRA_WIDTH: [0.2, 0.2, 0.2]
+2026-03-03 11:52:02,983   INFO  
+cfg.MODEL.POINT_HEAD.TARGET_CONFIG.ASSIGN_METHOD = edict()
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.TARGET_CONFIG.ASSIGN_METHOD.NAME: extend_gt
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.TARGET_CONFIG.ASSIGN_METHOD.ASSIGN_TYPE: centers_origin
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.TARGET_CONFIG.ASSIGN_METHOD.EXTRA_WIDTH: [1.0, 1.0, 1.0]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.TARGET_CONFIG.ASSIGN_METHOD.FG_PC_IGNORE: False
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.TARGET_CONFIG.BOX_CODER: PointResidual_BinOri_Coder
+2026-03-03 11:52:02,983   INFO  
+cfg.MODEL.POINT_HEAD.TARGET_CONFIG.BOX_CODER_CONFIG = edict()
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.TARGET_CONFIG.BOX_CODER_CONFIG.angle_bin_num: 12
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.TARGET_CONFIG.BOX_CODER_CONFIG.use_mean_size: True
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.TARGET_CONFIG.BOX_CODER_CONFIG.mean_size: [[3.9, 1.6, 1.56], [0.8, 0.6, 1.73], [1.76, 0.6, 1.73]]
+2026-03-03 11:52:02,983   INFO  
+cfg.MODEL.POINT_HEAD.LOSS_CONFIG = edict()
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.LOSS_CONFIG.LOSS_CLS: WeightedCrossEntropy
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.LOSS_CONFIG.LOSS_REG: WeightedSmoothL1Loss
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.LOSS_CONFIG.LOSS_INS: WeightedCrossEntropy
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.LOSS_CONFIG.SAMPLE_METHOD_LIST: [['D-FPS'], ['D-FPS'], ['ctr_aware'], ['ctr_aware'], [], []]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.LOSS_CONFIG.LOSS_VOTE_TYPE: none
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.LOSS_CONFIG.CORNER_LOSS_REGULARIZATION: True
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.LOSS_CONFIG.CENTERNESS_REGULARIZATION: True
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.LOSS_CONFIG.CENTERNESS_REGULARIZATION_SA: True
+2026-03-03 11:52:02,983   INFO  
+cfg.MODEL.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS = edict()
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.ins_aware_weight: [0, 1.0, 1.0]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.vote_weight: 1.0
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.point_cls_weight: 1.0
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.point_box_weight: 1.0
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.corner_weight: 1.0
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.code_weights: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.dir_weight: 0.2
+2026-03-03 11:52:02,983   INFO  
+cfg.MODEL.SHARED_HEAD = edict()
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.NUM_POINT_FEATURES: 512
+2026-03-03 11:52:02,983   INFO  
+cfg.MODEL.SHARED_HEAD.POINT_HEAD = edict()
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.NAME: IASSD_Head
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.CLS_FC: [512, 512]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.REG_FC: [512, 512]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.CLASS_AGNOSTIC: False
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.USE_POINT_FEATURES_BEFORE_FUSION: False
+2026-03-03 11:52:02,983   INFO  
+cfg.MODEL.SHARED_HEAD.POINT_HEAD.TARGET_CONFIG = edict()
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.TARGET_CONFIG.INS_AWARE_ASSIGN: True
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.TARGET_CONFIG.GT_EXTRA_WIDTH: [0.2, 0.2, 0.2]
+2026-03-03 11:52:02,983   INFO  
+cfg.MODEL.SHARED_HEAD.POINT_HEAD.TARGET_CONFIG.ASSIGN_METHOD = edict()
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.TARGET_CONFIG.ASSIGN_METHOD.NAME: extend_gt
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.TARGET_CONFIG.ASSIGN_METHOD.ASSIGN_TYPE: centers_origin
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.TARGET_CONFIG.ASSIGN_METHOD.EXTRA_WIDTH: [1.0, 1.0, 1.0]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.TARGET_CONFIG.ASSIGN_METHOD.FG_PC_IGNORE: False
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.TARGET_CONFIG.BOX_CODER: PointResidual_BinOri_Coder
+2026-03-03 11:52:02,983   INFO  
+cfg.MODEL.SHARED_HEAD.POINT_HEAD.TARGET_CONFIG.BOX_CODER_CONFIG = edict()
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.TARGET_CONFIG.BOX_CODER_CONFIG.angle_bin_num: 12
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.TARGET_CONFIG.BOX_CODER_CONFIG.use_mean_size: True
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.TARGET_CONFIG.BOX_CODER_CONFIG.mean_size: [[3.9, 1.6, 1.56], [0.8, 0.6, 1.73], [1.76, 0.6, 1.73]]
+2026-03-03 11:52:02,983   INFO  
+cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG = edict()
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.LOSS_CLS: WeightedCrossEntropy
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.LOSS_REG: WeightedSmoothL1Loss
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.LOSS_INS: WeightedCrossEntropy
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.SAMPLE_METHOD_LIST: [['D-FPS'], ['D-FPS'], ['ctr_aware'], ['ctr_aware'], [], []]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.LOSS_VOTE_TYPE: none
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.CORNER_LOSS_REGULARIZATION: True
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.CENTERNESS_REGULARIZATION: True
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.CENTERNESS_REGULARIZATION_SA: True
+2026-03-03 11:52:02,983   INFO  
+cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS = edict()
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.ins_aware_weight: [0, 0, 0]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.vote_weight: 0
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.point_cls_weight: 1.0
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.point_box_weight: 1.0
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.corner_weight: 1.0
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.code_weights: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+2026-03-03 11:52:02,983   INFO  cfg.MODEL.SHARED_HEAD.POINT_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.dir_weight: 0.2
+2026-03-03 11:52:02,983   INFO  
+cfg.MODEL.POST_PROCESSING = edict()
+2026-03-03 11:52:02,984   INFO  cfg.MODEL.POST_PROCESSING.RECALL_MODE: normal
+2026-03-03 11:52:02,984   INFO  cfg.MODEL.POST_PROCESSING.RECALL_THRESH_LIST: [0.3, 0.5, 0.7]
+2026-03-03 11:52:02,984   INFO  cfg.MODEL.POST_PROCESSING.SCORE_THRESH: 0.3
+2026-03-03 11:52:02,984   INFO  cfg.MODEL.POST_PROCESSING.OUTPUT_RAW_SCORE: False
+2026-03-03 11:52:02,984   INFO  cfg.MODEL.POST_PROCESSING.EVAL_METRIC: kitti
+2026-03-03 11:52:02,984   INFO  
+cfg.MODEL.POST_PROCESSING.NMS_CONFIG = edict()
+2026-03-03 11:52:02,984   INFO  cfg.MODEL.POST_PROCESSING.NMS_CONFIG.MULTI_CLASSES_NMS: False
+2026-03-03 11:52:02,984   INFO  cfg.MODEL.POST_PROCESSING.NMS_CONFIG.NMS_TYPE: nms_gpu
+2026-03-03 11:52:02,984   INFO  cfg.MODEL.POST_PROCESSING.NMS_CONFIG.NMS_THRESH: 0.01
+2026-03-03 11:52:02,984   INFO  cfg.MODEL.POST_PROCESSING.NMS_CONFIG.NMS_PRE_MAXSIZE: 4096
+2026-03-03 11:52:02,984   INFO  cfg.MODEL.POST_PROCESSING.NMS_CONFIG.NMS_POST_MAXSIZE: 500
+2026-03-03 11:52:02,984   INFO  
+cfg.OPTIMIZATION = edict()
+2026-03-03 11:52:02,984   INFO  cfg.OPTIMIZATION.BATCH_SIZE_PER_GPU: 8
+2026-03-03 11:52:02,984   INFO  cfg.OPTIMIZATION.NUM_EPOCHS: 80
+2026-03-03 11:52:02,984   INFO  cfg.OPTIMIZATION.OPTIMIZER: adam_onecycle
+2026-03-03 11:52:02,984   INFO  cfg.OPTIMIZATION.LR: 0.001
+2026-03-03 11:52:02,984   INFO  cfg.OPTIMIZATION.WEIGHT_DECAY: 0.01
+2026-03-03 11:52:02,984   INFO  cfg.OPTIMIZATION.MOMENTUM: 0.9
+2026-03-03 11:52:02,984   INFO  cfg.OPTIMIZATION.MOMS: [0.95, 0.85]
+2026-03-03 11:52:02,984   INFO  cfg.OPTIMIZATION.PCT_START: 0.4
+2026-03-03 11:52:02,984   INFO  cfg.OPTIMIZATION.DIV_FACTOR: 10
+2026-03-03 11:52:02,984   INFO  cfg.OPTIMIZATION.DECAY_STEP_LIST: [35, 45]
+2026-03-03 11:52:02,984   INFO  cfg.OPTIMIZATION.LR_DECAY: 0.01
+2026-03-03 11:52:02,984   INFO  cfg.OPTIMIZATION.LR_CLIP: 1e-07
+2026-03-03 11:52:02,984   INFO  cfg.OPTIMIZATION.LR_WARMUP: False
+2026-03-03 11:52:02,984   INFO  cfg.OPTIMIZATION.WARMUP_EPOCH: 1
+2026-03-03 11:52:02,984   INFO  cfg.OPTIMIZATION.GRAD_NORM_CLIP: 10
+2026-03-03 11:52:02,984   INFO  cfg.TAG: cfar-radar
+2026-03-03 11:52:02,984   INFO  cfg.EXP_GROUP_PATH: seeing_beyond/tools/cfgs/kitti_models
+2026-03-03 11:52:03,003   INFO  Loading KITTI dataset
+2026-03-03 11:52:03,121   INFO  Total samples for KITTI dataset: 5139
+2026-03-03 11:52:07,749   INFO  ===> loading pretrained model /seeing_beyond/ckpts/cfar/cfar-radar.pth 
+2026-03-03 11:52:07,750   INFO  ==> Loading parameters from checkpoint /seeing_beyond/ckpts/cfar/cfar-radar.pth to CPU
+2026-03-03 11:52:07,763   INFO  ==> Checkpoint trained from version: pcdet+0.3.0+2520bfc+pya3e4981
+2026-03-03 11:52:09,239   INFO  ==> Done (loaded 717/717)
+2026-03-03 11:52:09,239   INFO  ===> Loading ckpt for attached model
+2026-03-03 11:52:09,240   INFO  ==> Loading parameters from checkpoint /seeing_beyond/ckpts/iassd/iassd-lidar.pth to GPU
+2026-03-03 11:52:09,518   INFO  ==> Checkpoint trained from version: pcdet+0.3.0+8332318+py837729e
+2026-03-03 11:52:09,521   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.0.weight: torch.Size([16, 4, 1, 1])
+2026-03-03 11:52:09,522   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.1.weight: torch.Size([16])
+2026-03-03 11:52:09,524   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.1.bias: torch.Size([16])
+2026-03-03 11:52:09,526   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.1.running_mean: torch.Size([16])
+2026-03-03 11:52:09,528   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.1.running_var: torch.Size([16])
+2026-03-03 11:52:09,529   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.1.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,531   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.3.weight: torch.Size([16, 16, 1, 1])
+2026-03-03 11:52:09,533   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.4.weight: torch.Size([16])
+2026-03-03 11:52:09,535   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.4.bias: torch.Size([16])
+2026-03-03 11:52:09,536   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.4.running_mean: torch.Size([16])
+2026-03-03 11:52:09,538   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.4.running_var: torch.Size([16])
+2026-03-03 11:52:09,540   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.4.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,541   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.6.weight: torch.Size([32, 16, 1, 1])
+2026-03-03 11:52:09,543   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.7.weight: torch.Size([32])
+2026-03-03 11:52:09,545   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.7.bias: torch.Size([32])
+2026-03-03 11:52:09,547   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.7.running_mean: torch.Size([32])
+2026-03-03 11:52:09,548   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.7.running_var: torch.Size([32])
+2026-03-03 11:52:09,550   INFO  Update weight backbone_3d.SA_modules.0.mlps.0.7.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,552   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.0.weight: torch.Size([32, 4, 1, 1])
+2026-03-03 11:52:09,553   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.1.weight: torch.Size([32])
+2026-03-03 11:52:09,555   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.1.bias: torch.Size([32])
+2026-03-03 11:52:09,557   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.1.running_mean: torch.Size([32])
+2026-03-03 11:52:09,558   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.1.running_var: torch.Size([32])
+2026-03-03 11:52:09,560   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.1.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,562   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.3.weight: torch.Size([32, 32, 1, 1])
+2026-03-03 11:52:09,563   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.4.weight: torch.Size([32])
+2026-03-03 11:52:09,565   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.4.bias: torch.Size([32])
+2026-03-03 11:52:09,567   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.4.running_mean: torch.Size([32])
+2026-03-03 11:52:09,569   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.4.running_var: torch.Size([32])
+2026-03-03 11:52:09,570   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.4.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,572   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.6.weight: torch.Size([64, 32, 1, 1])
+2026-03-03 11:52:09,574   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.7.weight: torch.Size([64])
+2026-03-03 11:52:09,575   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.7.bias: torch.Size([64])
+2026-03-03 11:52:09,577   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.7.running_mean: torch.Size([64])
+2026-03-03 11:52:09,579   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.7.running_var: torch.Size([64])
+2026-03-03 11:52:09,580   INFO  Update weight backbone_3d.SA_modules.0.mlps.1.7.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,582   INFO  Update weight backbone_3d.SA_modules.0.aggregation_layer.0.weight: torch.Size([64, 96, 1])
+2026-03-03 11:52:09,584   INFO  Update weight backbone_3d.SA_modules.0.aggregation_layer.1.weight: torch.Size([64])
+2026-03-03 11:52:09,586   INFO  Update weight backbone_3d.SA_modules.0.aggregation_layer.1.bias: torch.Size([64])
+2026-03-03 11:52:09,587   INFO  Update weight backbone_3d.SA_modules.0.aggregation_layer.1.running_mean: torch.Size([64])
+2026-03-03 11:52:09,589   INFO  Update weight backbone_3d.SA_modules.0.aggregation_layer.1.running_var: torch.Size([64])
+2026-03-03 11:52:09,591   INFO  Update weight backbone_3d.SA_modules.0.aggregation_layer.1.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,592   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.0.weight: torch.Size([64, 67, 1, 1])
+2026-03-03 11:52:09,594   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.1.weight: torch.Size([64])
+2026-03-03 11:52:09,596   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.1.bias: torch.Size([64])
+2026-03-03 11:52:09,598   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.1.running_mean: torch.Size([64])
+2026-03-03 11:52:09,599   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.1.running_var: torch.Size([64])
+2026-03-03 11:52:09,601   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.1.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,603   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.3.weight: torch.Size([64, 64, 1, 1])
+2026-03-03 11:52:09,606   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.4.weight: torch.Size([64])
+2026-03-03 11:52:09,608   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.4.bias: torch.Size([64])
+2026-03-03 11:52:09,609   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.4.running_mean: torch.Size([64])
+2026-03-03 11:52:09,612   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.4.running_var: torch.Size([64])
+2026-03-03 11:52:09,614   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.4.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,617   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.6.weight: torch.Size([128, 64, 1, 1])
+2026-03-03 11:52:09,619   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.7.weight: torch.Size([128])
+2026-03-03 11:52:09,622   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.7.bias: torch.Size([128])
+2026-03-03 11:52:09,624   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.7.running_mean: torch.Size([128])
+2026-03-03 11:52:09,627   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.7.running_var: torch.Size([128])
+2026-03-03 11:52:09,629   INFO  Update weight backbone_3d.SA_modules.1.mlps.0.7.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,632   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.0.weight: torch.Size([64, 67, 1, 1])
+2026-03-03 11:52:09,634   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.1.weight: torch.Size([64])
+2026-03-03 11:52:09,635   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.1.bias: torch.Size([64])
+2026-03-03 11:52:09,637   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.1.running_mean: torch.Size([64])
+2026-03-03 11:52:09,639   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.1.running_var: torch.Size([64])
+2026-03-03 11:52:09,640   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.1.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,642   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.3.weight: torch.Size([96, 64, 1, 1])
+2026-03-03 11:52:09,644   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.4.weight: torch.Size([96])
+2026-03-03 11:52:09,645   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.4.bias: torch.Size([96])
+2026-03-03 11:52:09,647   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.4.running_mean: torch.Size([96])
+2026-03-03 11:52:09,649   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.4.running_var: torch.Size([96])
+2026-03-03 11:52:09,651   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.4.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,652   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.6.weight: torch.Size([128, 96, 1, 1])
+2026-03-03 11:52:09,654   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.7.weight: torch.Size([128])
+2026-03-03 11:52:09,656   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.7.bias: torch.Size([128])
+2026-03-03 11:52:09,657   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.7.running_mean: torch.Size([128])
+2026-03-03 11:52:09,659   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.7.running_var: torch.Size([128])
+2026-03-03 11:52:09,661   INFO  Update weight backbone_3d.SA_modules.1.mlps.1.7.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,663   INFO  Update weight backbone_3d.SA_modules.1.aggregation_layer.0.weight: torch.Size([128, 256, 1])
+2026-03-03 11:52:09,664   INFO  Update weight backbone_3d.SA_modules.1.aggregation_layer.1.weight: torch.Size([128])
+2026-03-03 11:52:09,666   INFO  Update weight backbone_3d.SA_modules.1.aggregation_layer.1.bias: torch.Size([128])
+2026-03-03 11:52:09,668   INFO  Update weight backbone_3d.SA_modules.1.aggregation_layer.1.running_mean: torch.Size([128])
+2026-03-03 11:52:09,670   INFO  Update weight backbone_3d.SA_modules.1.aggregation_layer.1.running_var: torch.Size([128])
+2026-03-03 11:52:09,671   INFO  Update weight backbone_3d.SA_modules.1.aggregation_layer.1.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,673   INFO  Update weight backbone_3d.SA_modules.1.confidence_layers.0.weight: torch.Size([128, 128, 1])
+2026-03-03 11:52:09,675   INFO  Update weight backbone_3d.SA_modules.1.confidence_layers.1.weight: torch.Size([128])
+2026-03-03 11:52:09,677   INFO  Update weight backbone_3d.SA_modules.1.confidence_layers.1.bias: torch.Size([128])
+2026-03-03 11:52:09,678   INFO  Update weight backbone_3d.SA_modules.1.confidence_layers.1.running_mean: torch.Size([128])
+2026-03-03 11:52:09,680   INFO  Update weight backbone_3d.SA_modules.1.confidence_layers.1.running_var: torch.Size([128])
+2026-03-03 11:52:09,682   INFO  Update weight backbone_3d.SA_modules.1.confidence_layers.1.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,684   INFO  Update weight backbone_3d.SA_modules.1.confidence_layers.3.weight: torch.Size([3, 128, 1])
+2026-03-03 11:52:09,686   INFO  Update weight backbone_3d.SA_modules.1.confidence_layers.3.bias: torch.Size([3])
+2026-03-03 11:52:09,687   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.0.weight: torch.Size([128, 131, 1, 1])
+2026-03-03 11:52:09,689   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.1.weight: torch.Size([128])
+2026-03-03 11:52:09,691   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.1.bias: torch.Size([128])
+2026-03-03 11:52:09,692   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.1.running_mean: torch.Size([128])
+2026-03-03 11:52:09,694   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.1.running_var: torch.Size([128])
+2026-03-03 11:52:09,696   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.1.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,698   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.3.weight: torch.Size([128, 128, 1, 1])
+2026-03-03 11:52:09,699   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.4.weight: torch.Size([128])
+2026-03-03 11:52:09,701   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.4.bias: torch.Size([128])
+2026-03-03 11:52:09,703   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.4.running_mean: torch.Size([128])
+2026-03-03 11:52:09,705   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.4.running_var: torch.Size([128])
+2026-03-03 11:52:09,706   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.4.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,708   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.6.weight: torch.Size([256, 128, 1, 1])
+2026-03-03 11:52:09,710   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.7.weight: torch.Size([256])
+2026-03-03 11:52:09,712   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.7.bias: torch.Size([256])
+2026-03-03 11:52:09,713   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.7.running_mean: torch.Size([256])
+2026-03-03 11:52:09,715   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.7.running_var: torch.Size([256])
+2026-03-03 11:52:09,717   INFO  Update weight backbone_3d.SA_modules.2.mlps.0.7.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,719   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.0.weight: torch.Size([128, 131, 1, 1])
+2026-03-03 11:52:09,720   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.1.weight: torch.Size([128])
+2026-03-03 11:52:09,722   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.1.bias: torch.Size([128])
+2026-03-03 11:52:09,724   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.1.running_mean: torch.Size([128])
+2026-03-03 11:52:09,725   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.1.running_var: torch.Size([128])
+2026-03-03 11:52:09,727   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.1.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,729   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.3.weight: torch.Size([256, 128, 1, 1])
+2026-03-03 11:52:09,731   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.4.weight: torch.Size([256])
+2026-03-03 11:52:09,732   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.4.bias: torch.Size([256])
+2026-03-03 11:52:09,734   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.4.running_mean: torch.Size([256])
+2026-03-03 11:52:09,736   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.4.running_var: torch.Size([256])
+2026-03-03 11:52:09,738   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.4.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,739   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.6.weight: torch.Size([256, 256, 1, 1])
+2026-03-03 11:52:09,741   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.7.weight: torch.Size([256])
+2026-03-03 11:52:09,743   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.7.bias: torch.Size([256])
+2026-03-03 11:52:09,744   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.7.running_mean: torch.Size([256])
+2026-03-03 11:52:09,746   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.7.running_var: torch.Size([256])
+2026-03-03 11:52:09,748   INFO  Update weight backbone_3d.SA_modules.2.mlps.1.7.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,750   INFO  Update weight backbone_3d.SA_modules.2.aggregation_layer.0.weight: torch.Size([256, 512, 1])
+2026-03-03 11:52:09,751   INFO  Update weight backbone_3d.SA_modules.2.aggregation_layer.1.weight: torch.Size([256])
+2026-03-03 11:52:09,753   INFO  Update weight backbone_3d.SA_modules.2.aggregation_layer.1.bias: torch.Size([256])
+2026-03-03 11:52:09,755   INFO  Update weight backbone_3d.SA_modules.2.aggregation_layer.1.running_mean: torch.Size([256])
+2026-03-03 11:52:09,756   INFO  Update weight backbone_3d.SA_modules.2.aggregation_layer.1.running_var: torch.Size([256])
+2026-03-03 11:52:09,758   INFO  Update weight backbone_3d.SA_modules.2.aggregation_layer.1.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,760   INFO  Update weight backbone_3d.SA_modules.2.confidence_layers.0.weight: torch.Size([256, 256, 1])
+2026-03-03 11:52:09,761   INFO  Update weight backbone_3d.SA_modules.2.confidence_layers.1.weight: torch.Size([256])
+2026-03-03 11:52:09,763   INFO  Update weight backbone_3d.SA_modules.2.confidence_layers.1.bias: torch.Size([256])
+2026-03-03 11:52:09,765   INFO  Update weight backbone_3d.SA_modules.2.confidence_layers.1.running_mean: torch.Size([256])
+2026-03-03 11:52:09,766   INFO  Update weight backbone_3d.SA_modules.2.confidence_layers.1.running_var: torch.Size([256])
+2026-03-03 11:52:09,768   INFO  Update weight backbone_3d.SA_modules.2.confidence_layers.1.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,770   INFO  Update weight backbone_3d.SA_modules.2.confidence_layers.3.weight: torch.Size([3, 256, 1])
+2026-03-03 11:52:09,772   INFO  Update weight backbone_3d.SA_modules.2.confidence_layers.3.bias: torch.Size([3])
+2026-03-03 11:52:09,773   INFO  Update weight backbone_3d.SA_modules.4.mlp_modules.0.weight: torch.Size([128, 256, 1])
+2026-03-03 11:52:09,775   INFO  Update weight backbone_3d.SA_modules.4.mlp_modules.1.weight: torch.Size([128])
+2026-03-03 11:52:09,777   INFO  Update weight backbone_3d.SA_modules.4.mlp_modules.1.bias: torch.Size([128])
+2026-03-03 11:52:09,778   INFO  Update weight backbone_3d.SA_modules.4.mlp_modules.1.running_mean: torch.Size([128])
+2026-03-03 11:52:09,780   INFO  Update weight backbone_3d.SA_modules.4.mlp_modules.1.running_var: torch.Size([128])
+2026-03-03 11:52:09,782   INFO  Update weight backbone_3d.SA_modules.4.mlp_modules.1.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,784   INFO  Update weight backbone_3d.SA_modules.4.ctr_reg.weight: torch.Size([3, 128, 1])
+2026-03-03 11:52:09,785   INFO  Update weight backbone_3d.SA_modules.4.ctr_reg.bias: torch.Size([3])
+2026-03-03 11:52:09,787   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.0.weight: torch.Size([256, 259, 1, 1])
+2026-03-03 11:52:09,789   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.1.weight: torch.Size([256])
+2026-03-03 11:52:09,790   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.1.bias: torch.Size([256])
+2026-03-03 11:52:09,792   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.1.running_mean: torch.Size([256])
+2026-03-03 11:52:09,794   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.1.running_var: torch.Size([256])
+2026-03-03 11:52:09,796   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.1.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,797   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.3.weight: torch.Size([256, 256, 1, 1])
+2026-03-03 11:52:09,799   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.4.weight: torch.Size([256])
+2026-03-03 11:52:09,801   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.4.bias: torch.Size([256])
+2026-03-03 11:52:09,802   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.4.running_mean: torch.Size([256])
+2026-03-03 11:52:09,804   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.4.running_var: torch.Size([256])
+2026-03-03 11:52:09,806   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.4.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,808   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.6.weight: torch.Size([512, 256, 1, 1])
+2026-03-03 11:52:09,809   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.7.weight: torch.Size([512])
+2026-03-03 11:52:09,811   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.7.bias: torch.Size([512])
+2026-03-03 11:52:09,813   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.7.running_mean: torch.Size([512])
+2026-03-03 11:52:09,815   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.7.running_var: torch.Size([512])
+2026-03-03 11:52:09,816   INFO  Update weight backbone_3d.SA_modules.5.mlps.0.7.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,818   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.0.weight: torch.Size([256, 259, 1, 1])
+2026-03-03 11:52:09,820   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.1.weight: torch.Size([256])
+2026-03-03 11:52:09,822   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.1.bias: torch.Size([256])
+2026-03-03 11:52:09,823   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.1.running_mean: torch.Size([256])
+2026-03-03 11:52:09,825   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.1.running_var: torch.Size([256])
+2026-03-03 11:52:09,827   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.1.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,828   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.3.weight: torch.Size([512, 256, 1, 1])
+2026-03-03 11:52:09,830   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.4.weight: torch.Size([512])
+2026-03-03 11:52:09,832   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.4.bias: torch.Size([512])
+2026-03-03 11:52:09,834   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.4.running_mean: torch.Size([512])
+2026-03-03 11:52:09,835   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.4.running_var: torch.Size([512])
+2026-03-03 11:52:09,837   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.4.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,839   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.6.weight: torch.Size([1024, 512, 1, 1])
+2026-03-03 11:52:09,840   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.7.weight: torch.Size([1024])
+2026-03-03 11:52:09,842   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.7.bias: torch.Size([1024])
+2026-03-03 11:52:09,844   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.7.running_mean: torch.Size([1024])
+2026-03-03 11:52:09,846   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.7.running_var: torch.Size([1024])
+2026-03-03 11:52:09,847   INFO  Update weight backbone_3d.SA_modules.5.mlps.1.7.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,849   INFO  Update weight backbone_3d.SA_modules.5.aggregation_layer.0.weight: torch.Size([512, 1536, 1])
+2026-03-03 11:52:09,851   INFO  Update weight backbone_3d.SA_modules.5.aggregation_layer.1.weight: torch.Size([512])
+2026-03-03 11:52:09,852   INFO  Update weight backbone_3d.SA_modules.5.aggregation_layer.1.bias: torch.Size([512])
+2026-03-03 11:52:09,854   INFO  Update weight backbone_3d.SA_modules.5.aggregation_layer.1.running_mean: torch.Size([512])
+2026-03-03 11:52:09,856   INFO  Update weight backbone_3d.SA_modules.5.aggregation_layer.1.running_var: torch.Size([512])
+2026-03-03 11:52:09,858   INFO  Update weight backbone_3d.SA_modules.5.aggregation_layer.1.num_batches_tracked: torch.Size([])
+2026-03-03 11:52:09,901   INFO  ==> Done (loaded 192/717)
+2026-03-03 11:52:09,901   INFO  ===> Resuming training from ckpt: /seeing_beyond/output/cfar-radar/debug_new/ckpt/checkpoint_epoch_2.pth 
+2026-03-03 11:52:09,901   INFO  ==> Loading parameters from checkpoint /seeing_beyond/output/cfar-radar/debug_new/ckpt/checkpoint_epoch_2.pth to CPU
+2026-03-03 11:52:10,001   INFO  ==> Loading optimizer parameters from checkpoint /seeing_beyond/output/cfar-radar/debug_new/ckpt/checkpoint_epoch_2.pth to CPU
+2026-03-03 11:52:10,054   INFO  ==> Done
+2026-03-03 11:52:10,057   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.0.0.weight
+2026-03-03 11:52:10,057   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.0.1.weight
+2026-03-03 11:52:10,057   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.0.1.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.0.3.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.0.4.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.0.4.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.0.6.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.0.7.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.0.7.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.1.0.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.1.1.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.1.1.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.1.3.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.1.4.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.1.4.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.1.6.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.1.7.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.mlps.1.7.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.aggregation_layer.0.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.aggregation_layer.1.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.0.aggregation_layer.1.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.0.0.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.0.1.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.0.1.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.0.3.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.0.4.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.0.4.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.0.6.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.0.7.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.0.7.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.1.0.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.1.1.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.1.1.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.1.3.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.1.4.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.1.4.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.1.6.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.1.7.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.mlps.1.7.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.aggregation_layer.0.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.aggregation_layer.1.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.aggregation_layer.1.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.confidence_layers.0.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.confidence_layers.1.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.confidence_layers.1.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.confidence_layers.3.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.1.confidence_layers.3.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.0.0.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.0.1.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.0.1.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.0.3.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.0.4.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.0.4.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.0.6.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.0.7.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.0.7.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.1.0.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.1.1.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.1.1.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.1.3.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.1.4.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.1.4.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.1.6.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.1.7.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.mlps.1.7.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.aggregation_layer.0.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.aggregation_layer.1.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.aggregation_layer.1.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.confidence_layers.0.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.confidence_layers.1.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.confidence_layers.1.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.confidence_layers.3.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.2.confidence_layers.3.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.4.mlp_modules.0.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.4.mlp_modules.1.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.4.mlp_modules.1.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.4.ctr_reg.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.4.ctr_reg.bias
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.0.0.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.0.1.weight
+2026-03-03 11:52:10,058   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.0.1.bias
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.0.3.weight
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.0.4.weight
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.0.4.bias
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.0.6.weight
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.0.7.weight
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.0.7.bias
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.1.0.weight
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.1.1.weight
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.1.1.bias
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.1.3.weight
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.1.4.weight
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.1.4.bias
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.1.6.weight
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.1.7.weight
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.mlps.1.7.bias
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.aggregation_layer.0.weight
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.aggregation_layer.1.weight
+2026-03-03 11:52:10,059   INFO  Freeze param in attach_backbone_3d.SA_modules.5.aggregation_layer.1.bias
+2026-03-03 11:52:10,059   INFO  CFAR(
+  (vfe): None
+  (backbone_3d): IASSD_Backbone(
+    (SA_modules): ModuleList(
+      (0): PointnetSAModuleMSG_WithSampling(
+        (groupers): ModuleList(
+          (0): QueryAndGroup()
+          (1): QueryAndGroup()
+        )
+        (pool_weights): ModuleList()
+        (mlps): ModuleList(
+          (0): Sequential(
+            (0): Conv2d(5, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(16, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(16, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+          (1): Sequential(
+            (0): Conv2d(5, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(32, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(32, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+        )
+        (aggregation_layer): Sequential(
+          (0): Conv1d(96, 64, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+      )
+      (1): PointnetSAModuleMSG_WithSampling(
+        (groupers): ModuleList(
+          (0): QueryAndGroup()
+          (1): QueryAndGroup()
+        )
+        (pool_weights): ModuleList()
+        (mlps): ModuleList(
+          (0): Sequential(
+            (0): Conv2d(67, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+          (1): Sequential(
+            (0): Conv2d(67, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(64, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(96, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+        )
+        (aggregation_layer): Sequential(
+          (0): Conv1d(256, 128, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+        (confidence_layers): Sequential(
+          (0): Conv1d(128, 128, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+          (3): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+        )
+      )
+      (2): PointnetSAModuleMSG_WithSampling(
+        (groupers): ModuleList(
+          (0): QueryAndGroup()
+          (1): QueryAndGroup()
+        )
+        (pool_weights): ModuleList()
+        (mlps): ModuleList(
+          (0): Sequential(
+            (0): Conv2d(131, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+          (1): Sequential(
+            (0): Conv2d(131, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+        )
+        (aggregation_layer): Sequential(
+          (0): Conv1d(512, 256, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+        (confidence_layers): Sequential(
+          (0): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+          (3): Conv1d(256, 3, kernel_size=(1,), stride=(1,))
+        )
+      )
+      (3): PointnetSAModuleMSG_WithSampling(
+        (groupers): ModuleList()
+        (pool_weights): ModuleList()
+        (mlps): ModuleList()
+      )
+      (4): Vote_layer(
+        (mlp_modules): Sequential(
+          (0): Conv1d(256, 128, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+        (ctr_reg): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+      )
+      (5): PointnetSAModuleMSG_WithSampling(
+        (groupers): ModuleList(
+          (0): QueryAndGroup()
+          (1): QueryAndGroup()
+        )
+        (pool_weights): ModuleList()
+        (mlps): ModuleList(
+          (0): Sequential(
+            (0): Conv2d(259, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+          (1): Sequential(
+            (0): Conv2d(259, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(512, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+        )
+        (aggregation_layer): Sequential(
+          (0): Conv1d(1536, 512, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+      )
+    )
+  )
+  (map_to_bev_module): None
+  (pfe): None
+  (backbone_2d): None
+  (feature_aug): FeatureAug(
+    (lidar_shared_mlp): CrossOverBlock(
+      (mlp): Sequential(
+        (0): mlp_bn_relu(
+          (net): Sequential(
+            (0): Conv1d(512, 512, kernel_size=(1,), stride=(1,))
+            (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (1): mlp_bn_relu(
+          (net): Sequential(
+            (0): Conv1d(512, 512, kernel_size=(1,), stride=(1,))
+            (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (2): mlp_bn_relu(
+          (net): Sequential(
+            (0): Conv1d(512, 512, kernel_size=(1,), stride=(1,))
+            (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (3): mlp_bn_relu(
+          (net): Sequential(
+            (0): Conv1d(512, 512, kernel_size=(1,), stride=(1,))
+            (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+      )
+    )
+    (radar_shared_mlp): CrossOverBlock(
+      (mlp): Sequential(
+        (0): mlp_bn_relu(
+          (net): Sequential(
+            (0): Conv1d(512, 512, kernel_size=(1,), stride=(1,))
+            (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (1): mlp_bn_relu(
+          (net): Sequential(
+            (0): Conv1d(512, 512, kernel_size=(1,), stride=(1,))
+            (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (2): mlp_bn_relu(
+          (net): Sequential(
+            (0): Conv1d(512, 512, kernel_size=(1,), stride=(1,))
+            (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (3): mlp_bn_relu(
+          (net): Sequential(
+            (0): Conv1d(512, 512, kernel_size=(1,), stride=(1,))
+            (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+      )
+    )
+  )
+  (dense_head): None
+  (point_head): IASSD_Head(
+    (cls_loss_func): WeightedClassificationLoss()
+    (reg_loss_func): WeightedSmoothL1Loss()
+    (ins_loss_func): WeightedClassificationLoss()
+    (cls_center_layers): Sequential(
+      (0): Linear(in_features=1024, out_features=512, bias=False)
+      (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU()
+      (3): Linear(in_features=512, out_features=512, bias=False)
+      (4): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU()
+      (6): Linear(in_features=512, out_features=3, bias=True)
+    )
+    (box_center_layers): Sequential(
+      (0): Linear(in_features=1024, out_features=512, bias=False)
+      (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU()
+      (3): Linear(in_features=512, out_features=512, bias=False)
+      (4): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU()
+      (6): Linear(in_features=512, out_features=30, bias=True)
+    )
+  )
+  (roi_head): None
+  (attach_backbone_3d): IASSD_Backbone(
+    (SA_modules): ModuleList(
+      (0): PointnetSAModuleMSG_WithSampling(
+        (groupers): ModuleList(
+          (0): QueryAndGroup()
+          (1): QueryAndGroup()
+        )
+        (pool_weights): ModuleList()
+        (mlps): ModuleList(
+          (0): Sequential(
+            (0): Conv2d(4, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(16, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(16, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+          (1): Sequential(
+            (0): Conv2d(4, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(32, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(32, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+        )
+        (aggregation_layer): Sequential(
+          (0): Conv1d(96, 64, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+      )
+      (1): PointnetSAModuleMSG_WithSampling(
+        (groupers): ModuleList(
+          (0): QueryAndGroup()
+          (1): QueryAndGroup()
+        )
+        (pool_weights): ModuleList()
+        (mlps): ModuleList(
+          (0): Sequential(
+            (0): Conv2d(67, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+          (1): Sequential(
+            (0): Conv2d(67, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(64, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(96, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+        )
+        (aggregation_layer): Sequential(
+          (0): Conv1d(256, 128, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+        (confidence_layers): Sequential(
+          (0): Conv1d(128, 128, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+          (3): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+        )
+      )
+      (2): PointnetSAModuleMSG_WithSampling(
+        (groupers): ModuleList(
+          (0): QueryAndGroup()
+          (1): QueryAndGroup()
+        )
+        (pool_weights): ModuleList()
+        (mlps): ModuleList(
+          (0): Sequential(
+            (0): Conv2d(131, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+          (1): Sequential(
+            (0): Conv2d(131, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+        )
+        (aggregation_layer): Sequential(
+          (0): Conv1d(512, 256, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+        (confidence_layers): Sequential(
+          (0): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+          (3): Conv1d(256, 3, kernel_size=(1,), stride=(1,))
+        )
+      )
+      (3): PointnetSAModuleMSG_WithSampling(
+        (groupers): ModuleList()
+        (pool_weights): ModuleList()
+        (mlps): ModuleList()
+      )
+      (4): Vote_layer(
+        (mlp_modules): Sequential(
+          (0): Conv1d(256, 128, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+        (ctr_reg): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+      )
+      (5): PointnetSAModuleMSG_WithSampling(
+        (groupers): ModuleList(
+          (0): QueryAndGroup()
+          (1): QueryAndGroup()
+        )
+        (pool_weights): ModuleList()
+        (mlps): ModuleList(
+          (0): Sequential(
+            (0): Conv2d(259, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+          (1): Sequential(
+            (0): Conv2d(259, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(512, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+        )
+        (aggregation_layer): Sequential(
+          (0): Conv1d(1536, 512, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+      )
+    )
+  )
+  (attach_model): IASSD_Backbone(
+    (SA_modules): ModuleList(
+      (0): PointnetSAModuleMSG_WithSampling(
+        (groupers): ModuleList(
+          (0): QueryAndGroup()
+          (1): QueryAndGroup()
+        )
+        (pool_weights): ModuleList()
+        (mlps): ModuleList(
+          (0): Sequential(
+            (0): Conv2d(4, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(16, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(16, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+          (1): Sequential(
+            (0): Conv2d(4, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(32, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(32, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+        )
+        (aggregation_layer): Sequential(
+          (0): Conv1d(96, 64, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+      )
+      (1): PointnetSAModuleMSG_WithSampling(
+        (groupers): ModuleList(
+          (0): QueryAndGroup()
+          (1): QueryAndGroup()
+        )
+        (pool_weights): ModuleList()
+        (mlps): ModuleList(
+          (0): Sequential(
+            (0): Conv2d(67, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+          (1): Sequential(
+            (0): Conv2d(67, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(64, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(96, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+        )
+        (aggregation_layer): Sequential(
+          (0): Conv1d(256, 128, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+        (confidence_layers): Sequential(
+          (0): Conv1d(128, 128, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+          (3): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+        )
+      )
+      (2): PointnetSAModuleMSG_WithSampling(
+        (groupers): ModuleList(
+          (0): QueryAndGroup()
+          (1): QueryAndGroup()
+        )
+        (pool_weights): ModuleList()
+        (mlps): ModuleList(
+          (0): Sequential(
+            (0): Conv2d(131, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(128, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+          (1): Sequential(
+            (0): Conv2d(131, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+        )
+        (aggregation_layer): Sequential(
+          (0): Conv1d(512, 256, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+        (confidence_layers): Sequential(
+          (0): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+          (3): Conv1d(256, 3, kernel_size=(1,), stride=(1,))
+        )
+      )
+      (3): PointnetSAModuleMSG_WithSampling(
+        (groupers): ModuleList()
+        (pool_weights): ModuleList()
+        (mlps): ModuleList()
+      )
+      (4): Vote_layer(
+        (mlp_modules): Sequential(
+          (0): Conv1d(256, 128, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+        (ctr_reg): Conv1d(128, 3, kernel_size=(1,), stride=(1,))
+      )
+      (5): PointnetSAModuleMSG_WithSampling(
+        (groupers): ModuleList(
+          (0): QueryAndGroup()
+          (1): QueryAndGroup()
+        )
+        (pool_weights): ModuleList()
+        (mlps): ModuleList(
+          (0): Sequential(
+            (0): Conv2d(259, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(256, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+          (1): Sequential(
+            (0): Conv2d(259, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+            (3): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (4): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): ReLU()
+            (6): Conv2d(512, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (7): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (8): ReLU()
+          )
+        )
+        (aggregation_layer): Sequential(
+          (0): Conv1d(1536, 512, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+      )
+    )
+  )
+  (shared_point_head): IASSD_Head(
+    (cls_loss_func): WeightedClassificationLoss()
+    (reg_loss_func): WeightedSmoothL1Loss()
+    (ins_loss_func): WeightedClassificationLoss()
+    (cls_center_layers): Sequential(
+      (0): Linear(in_features=512, out_features=512, bias=False)
+      (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU()
+      (3): Linear(in_features=512, out_features=512, bias=False)
+      (4): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU()
+      (6): Linear(in_features=512, out_features=3, bias=True)
+    )
+    (box_center_layers): Sequential(
+      (0): Linear(in_features=512, out_features=512, bias=False)
+      (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU()
+      (3): Linear(in_features=512, out_features=512, bias=False)
+      (4): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU()
+      (6): Linear(in_features=512, out_features=30, bias=True)
+    )
+  )
+  (shared_head): IASSD_Head(
+    (cls_loss_func): WeightedClassificationLoss()
+    (reg_loss_func): WeightedSmoothL1Loss()
+    (ins_loss_func): WeightedClassificationLoss()
+    (cls_center_layers): Sequential(
+      (0): Linear(in_features=512, out_features=512, bias=False)
+      (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU()
+      (3): Linear(in_features=512, out_features=512, bias=False)
+      (4): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU()
+      (6): Linear(in_features=512, out_features=3, bias=True)
+    )
+    (box_center_layers): Sequential(
+      (0): Linear(in_features=512, out_features=512, bias=False)
+      (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU()
+      (3): Linear(in_features=512, out_features=512, bias=False)
+      (4): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU()
+      (6): Linear(in_features=512, out_features=30, bias=True)
+    )
+  )
+)
+2026-03-03 11:52:10,061   INFO  Loading KITTI dataset
+2026-03-03 11:52:10,078   INFO  Total samples for KITTI dataset: 1296
+2026-03-03 11:52:10,078   INFO  **********************Start training seeing_beyond/tools/cfgs/kitti_models/cfar-radar(debug_new)**********************

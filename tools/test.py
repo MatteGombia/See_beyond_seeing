@@ -37,7 +37,7 @@ def parse_config():
     parser.add_argument('--eval_tag', type=str, default='default', help='eval tag for this experiment')
     parser.add_argument('--eval_all', action='store_true', default=False, help='whether to evaluate all checkpoints')
     parser.add_argument('--ckpt_dir', type=str, default=None, help='specify a ckpt directory to be evaluated if needed')
-    parser.add_argument('--save_to_file', action='store_true', default=False, help='')
+    parser.add_argument('--save_to_file', action='store_true', default=True, help='')
 
     args = parser.parse_args()
 
@@ -64,7 +64,7 @@ def eval_single_ckpt(model, test_loader, args, eval_output_dir, logger, epoch_id
     save_to_file = args.save_to_file
     eval_utils.eval_one_epoch(
         cfg, model, test_loader, epoch_id, logger, dist_test=dist_test,
-        result_dir=eval_output_dir, save_to_file=save_to_file, save_centers=save_centers
+        result_dir=result_dir, save_to_file=save_to_file, save_centers=save_centers
     )
 
 def vis_single_ckpt(model, test_loader, args, eval_output_dir, logger, epoch_id, dist_test=False, reload=True, \

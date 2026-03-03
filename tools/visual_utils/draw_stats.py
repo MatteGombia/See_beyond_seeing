@@ -198,7 +198,7 @@ def get_results_over_distance(gt_annos,
 
 def main():
     path_dict = {
-        'CFAR_radar':'output/IA-SSD-GAN-vod-aug/radar48001_512all/eval/best_epoch_checkpoint',
+        'CFAR_radar':'results',
         'radar_rcsv':'output/IA-SSD-vod-radar/iassd_best_aug_new/eval/best_epoch_checkpoint',
         'radar_rcs':'output/IA-SSD-vod-radar/iassd_rcs/eval/best_epoch_checkpoint',
         'radar_v':'output/IA-SSD-vod-radar/iassd_vcomp_only/eval/best_epoch_checkpoint',
@@ -246,7 +246,16 @@ def main():
         # load predicted boxes 
         new_dt = []
         for key in dt.keys():
-            new_dt += [dt[key][0]] 
+            # If dt[key] is a list of frames (a batch), add all of them!
+            if isinstance(dt[key], list):
+                new_dt.extend(dt[key])
+            else:
+                # Fallback just in case it's a single frame
+                new_dt.append(dt[key])
+                
+        print(f"DEBUG: Unpacked {len(new_dt)} predicted frames from {len(dt.keys())} batches.")
+
+        print(f"DEBUG: Loaded {len(new_gt)} GT annotations and {len(new_dt)} detection annotations for tag {tag}.")
 
         # Calculate AP@[0.1,...,0.9]
         all_iou_results = get_all_iou_results(new_gt,new_dt,current_classes)

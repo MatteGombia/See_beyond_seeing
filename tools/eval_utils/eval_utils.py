@@ -1,3 +1,9 @@
+import faulthandler
+faulthandler.enable()
+
+from numba import cuda
+cuda.select_device(0)
+
 from distutils.log import debug
 from genericpath import exists
 import pickle
@@ -328,6 +334,46 @@ def eval_one_epoch(cfg, model, dataloader, epoch_id, logger, dist_test=False, sa
             with open(save_name, 'wb') as f:
                 pickle.dump(save_data, f)
 
+    print(f"DEBUG: len(det_annos)={len(det_annos)}, len(gt_annos)={len(gt_annos)}")
+    assert len(det_annos) == len(gt_annos), "Mismatch between detections and ground truths!"
+
+    for i, det in enumerate(det_annos):
+    # 1. Check for NaNs or Infs in the actual coordinate arrays
+        for key in ['bbox', 'dimensions', 'location', 'rotation_y', 'boxes_lidar']:
+            if np.any(np.isnan(det[key])) or np.any(np.isinf(det[key])):
+                print(f"CRITICAL: NaN or Inf found in {key} for frame {i}!")
+                import sys; sys.exit()
+            
+        # 2. Force the correct data types to prevent Numba signature crashes
+        det['name'] = det['name'].astype(str)
+        det['truncated'] = det['truncated'].astype(np.float32)
+        det['occluded'] = det['occluded'].astype(np.int32) # <-- Crucial fix here
+        det['alpha'] = det['alpha'].astype(np.float32)
+        det['bbox'] = det['bbox'].astype(np.float32)
+        det['dimensions'] = det['dimensions'].astype(np.float32)
+        det['location'] = det['location'].astype(np.float32)
+        det['rotation_y'] = det['rotation_y'].astype(np.float32)
+        det['score'] = det['score'].astype(np.float32)
+        if 'boxes_lidar' in det:
+            det['boxes_lidar'] = det['boxes_lidar'].astype(np.float32)
+
+# Do the same for gt_annos just in case!
+    for gt in gt_annos:
+        gt['occluded'] = gt['occluded'].astype(np.int32)
+
+    import gc
+
+    # 1. Delete the raw dictionaries if they are huge
+    # (Make sure you don't delete det_annos or gt_annos!)
+    del gt_dict 
+    if 'det_dict' in locals():
+        del det_dict
+
+    # 2. Force Python garbage collection
+    gc.collect()
+
+    # 3. Force PyTorch to release cached GPU memory
+    torch.cuda.empty_cache()
 
     try:
         eval_results = dataset.evaluation(

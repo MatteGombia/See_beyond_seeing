@@ -17,6 +17,7 @@ from pcdet.models import build_network, model_fn_decorator
 from pcdet.utils import common_utils
 from train_utils.optimization import build_optimizer, build_scheduler
 from train_utils.train_utils import train_model
+from pathlib import Path as P
 
 
 def parse_config():
@@ -42,9 +43,9 @@ def parse_config():
 
     parser.add_argument('--max_waiting_mins', type=int, default=0, help='max waiting minutes')
     parser.add_argument('--start_epoch', type=int, default=0, help='')
-    parser.add_argument('--save_to_file', default=False, help='')
+    parser.add_argument('--save_to_file', default=True, help='')
     parser.add_argument('--freeze_part', default=True, help='load head params only and freeze them during training')
-    parser.add_argument('--result_dir', type=str, default=None, help='')
+    parser.add_argument('--result_dir', type=str, default=P("/seeing_beyond/results"), help='')
 
     args = parser.parse_args()
 

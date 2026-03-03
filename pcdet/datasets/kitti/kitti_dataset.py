@@ -445,7 +445,8 @@ class KittiDataset(DatasetTemplate):
         calib = self.get_calib(sample_idx)
 
         
-        if self.use_attach & self.training:
+        #if self.use_attach & self.training:
+        if self.use_attach:
             if self.is_radar:
                 attach_calib = self.get_attach_calib(sample_idx)
                 attach = self.get_attach_lidar(sample_idx)

@@ -30,7 +30,7 @@ MODEL:
     DEBUG: False
     NAME: CFAR
     ATTACH_NETWORK:
-        CKPT_FILE: "/CenterPoint-KITTI/ckpts/iassd/iassd-lidar-all-cls.pth"
+        CKPT_FILE: "/seeing_beyond/ckpts/iassd/iassd-lidar.pth"
         NUM_POINT_FEATURES: 4
         BACKBONE_3D:
             NAME: IASSD_Backbone
@@ -214,7 +214,7 @@ MODEL:
     POST_PROCESSING:
         RECALL_MODE: 'normal'  # 'normal'(default), 'detail', 'speed'(no recall info)
         RECALL_THRESH_LIST: [0.3, 0.5, 0.7]
-        SCORE_THRESH: 0.1
+        SCORE_THRESH: 0.3
         OUTPUT_RAW_SCORE: False
 
         EVAL_METRIC: kitti
